@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
@@ -7,6 +8,7 @@ public class PlayerController : MonoBehaviour {
 	private Animator anim;
 
 	public static int MAX_SIZE = 200;
+	public string nextScene;
 	private int size = 0;
 	private bool walkingRight = true;
 
@@ -53,7 +55,7 @@ public class PlayerController : MonoBehaviour {
 			size++;
 			rb.velocity = Vector2.zero;
 			if (size > 500) {
-				// GO TO NEXT SCENE
+				SceneManager.LoadScene (nextScene);
 			}
 			return true;
 		} else if(size > 0){
