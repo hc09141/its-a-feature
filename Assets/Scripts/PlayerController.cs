@@ -4,7 +4,7 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 	private Rigidbody2D rb;	
-	private AudioSource sound;
+	private ExploitMover exploit;
 	private Animator anim;
 
 	public static int MAX_SIZE = 200;
@@ -16,18 +16,25 @@ public class PlayerController : MonoBehaviour {
 	public int MAX_VELOCITY = 100;
 	public int JUMP_FORCE = 1000;
 
+	public AudioSource exitSound;
+
 	private bool door_active = false;
+	private bool completed;
+	private bool transition;
 
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
-		sound = GetComponent<AudioSource> ();
 		anim = GetComponent<Animator> ();
+		exploit = GetComponentInChildren<ExploitMover> ();
+		DontDestroyOnLoad (exitSound);
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (!Exploit ()) {
+	void Update () {		
+		if (completed) {
+			exploit.setComplete ();
+		} else if (!Exploit ()) {
 			move ();
 			jump ();
 		}
@@ -55,7 +62,8 @@ public class PlayerController : MonoBehaviour {
 			size++;
 			rb.velocity = Vector2.zero;
 			if (size > 500) {
-				SceneManager.LoadScene (nextScene);
+				completed = true;
+				exitSound.Play ();
 			}
 			return true;
 		} else if(size > 0){
@@ -109,6 +117,10 @@ public class PlayerController : MonoBehaviour {
 
 	void DoorInactive(){
 		door_active = false;
+	}
+
+	public void Transition() {
+		SceneManager.LoadScene (nextScene);
 	}
 
 	public int Size(){
