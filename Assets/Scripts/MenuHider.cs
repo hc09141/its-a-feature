@@ -16,12 +16,18 @@ public class MenuHider : MonoBehaviour {
 		if (Input.GetKeyDown ("escape")) {
 			print ("Show menu");
 			panel.SetActive (true);
-			// pause game
+			Pause ();
 		}
+	}
+
+	void Pause() {
+		Object[] objects = FindObjectsOfType (typeof(GameObject));
+		Time.timeScale = 0.0f;
+		// http://answers.unity3d.com/questions/7544/how-do-i-pause-my-game.html
 	}
 
 	public void HideMenu() {
 		panel.SetActive (false);
-		// reactivate game
+		Time.timeScale = 1.0f;
 	}
 }
