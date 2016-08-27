@@ -72,7 +72,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-*.meta
 
 /Temp/
 /Library/
