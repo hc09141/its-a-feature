@@ -44,6 +44,15 @@ public class PlayerController : MonoBehaviour {
 		if(Input.GetKeyDown("space") && rb.IsTouchingLayers(LayerMask.GetMask("Platform", "Ground"))){
 			rb.AddForce (new Vector2(0,JUMP_FORCE));
 			anim.SetBool ("isJumping", true);
+			resetGroundMovement ();
+		} else if (anim.GetBool("isJumping") && rb.velocity.y < -1f){
+			anim.SetBool ("isJumping", false);
+			anim.SetBool ("isFalling", true);
+			resetGroundMovement ();
+		} else if (anim.GetBool("isFalling") && rb.IsTouchingLayers(LayerMask.GetMask("Platform", "Ground"))){
+			anim.SetBool ("isIdle", true);
+			anim.SetBool ("isJumping", false);
+			anim.SetBool ("isFalling", false);
 		}
 	}
 
@@ -94,9 +103,7 @@ public class PlayerController : MonoBehaviour {
 				anim.SetBool ("isIdle", true);
 			}
 		} else {
-			anim.SetBool ("isWalkingRight", false);
-			anim.SetBool ("isWalkingLeft", false);
-			anim.SetBool ("isFalling", true);
+			resetGroundMovement ();
 		}
 	}
 
@@ -114,6 +121,12 @@ public class PlayerController : MonoBehaviour {
 
 	void DoorInactive(){
 		door_active = false;
+	}
+
+	void resetGroundMovement(){
+		anim.SetBool ("isWalkingRight", false);
+		anim.SetBool ("isWalkingLeft", false);
+		anim.SetBool ("isIdle", false);
 	}
 
 	public void Transition() {
