@@ -14,7 +14,8 @@ public class HiddenPlatformScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		float alpha = Mathf.Max (0f, render.color.a - 0.05f);
+		float decrease = (1.0f - render.color.a) / 20.0f;
+		float alpha = Mathf.Max (0f, render.color.a - decrease);
 		Color c = render.color;
 		c.a = alpha;
 		render.color = c;
@@ -22,7 +23,15 @@ public class HiddenPlatformScript : MonoBehaviour {
 
 	void TriggeredByExploit(){
 		Color c = render.color;
-		c.a = 1.0f;
+		c.a = 0.99f;
 		render.color = c;
+	}
+
+	void OnCollisionStay2D(Collision2D col){
+		if (col.gameObject.tag == "Player") {
+			Color c = render.color;
+			c.a = Mathf.Max (c.a, 0.2f);
+			render.color = c;
+		}
 	}
 }

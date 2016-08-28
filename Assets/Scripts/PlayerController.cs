@@ -162,7 +162,10 @@ public class PlayerController : MonoBehaviour {
 	public int Size(){
 		return size;
 	}
-
+		
+	void PickupDevice(){
+		hasExploit = true;
+	}
 	void OnTriggeredByGround() {
 		StartCoroutine("Spawn");
 	}
