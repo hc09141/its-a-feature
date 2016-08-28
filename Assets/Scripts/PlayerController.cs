@@ -15,12 +15,12 @@ public class PlayerController : MonoBehaviour {
 	public int ACCELERATION = 1000;
 	public int MAX_VELOCITY = 100;
 	public int JUMP_FORCE = 1000;
+	public float IDLE_THRESHOLD = 2.0f;
 
 	public AudioSource exitSound;
 
 	private bool door_active = false;
-	private bool completed;
-	private bool transition;
+	private bool completed = false;
 
 	// Use this for initialization
 	void Start () {
@@ -74,26 +74,20 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Animation(){
-		float horizontal = Input.GetAxis ("Horizontal");
-		if (rb.IsTouchingLayers (LayerMask.GetMask ("Platform"))) {
+		if (rb.IsTouchingLayers (LayerMask.GetMask ("Platform", "Ground"))) {
+			float velocity = rb.velocity.x;
 			anim.SetBool ("isFalling", false);
 			// 	anim.SetBool ("isJumping", false);
-			if (horizontal > 0) {				
+			if (velocity > IDLE_THRESHOLD) {				
 				anim.SetBool ("isWalkingLeft", false);
 				anim.SetBool ("isIdle", false);
 				anim.SetBool ("isWalkingRight", true);
-				if (!walkingRight) {
-					Flip ();
-					walkingRight = true;
-				}
-			} else if (horizontal < 0) {
+				FlipRight ();
+			} else if (velocity < -IDLE_THRESHOLD) {
 				anim.SetBool ("isWalkingRight", false);
 				anim.SetBool ("isIdle", false);
 				anim.SetBool ("isWalkingLeft", true);
-				if (walkingRight) {
-					Flip ();
-					walkingRight = false;
-				}
+				FlipLeft ();
 			} else {
 				anim.SetBool ("isWalkingRight", false);
 				anim.SetBool ("isWalkingLeft", false);
@@ -105,9 +99,13 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool ("isFalling", true);
 		}
 	}
-		
-	void Flip(){
-		anim.transform.Rotate(0, 180, 0);
+
+	void FlipRight(){
+		GetComponent<SpriteRenderer> ().flipX = false;
+	}
+
+	void FlipLeft(){
+		GetComponent<SpriteRenderer> ().flipX = true;
 	}
 
 	void DoorActive(){
