@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ParallaxSplashScreen : MonoBehaviour {
 
@@ -31,6 +32,10 @@ public class ParallaxSplashScreen : MonoBehaviour {
 	// Update is called once per frame
 	void LateUpdate () {
 
+		if(Input.GetKeyDown(KeyCode.Return)){
+			SceneManager.LoadScene("MountainVillage");
+		}
+
 		for(int i = 0; i < backgrounds.Length; i++){
 
 			float parallax = (previousCamPos.x - cam.position.x) * parallaxScales[i];
@@ -46,4 +51,6 @@ public class ParallaxSplashScreen : MonoBehaviour {
 		previousCamPos = cam.position;
 
 	}
+
+
 }
