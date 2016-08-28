@@ -26,4 +26,12 @@ public class HiddenPlatformScript : MonoBehaviour {
 		c.a = 0.99f;
 		render.color = c;
 	}
+
+	void OnCollisionStay2D(Collision2D col){
+		if (col.gameObject.tag == "Player") {
+			Color c = render.color;
+			c.a = Mathf.Max (c.a, 0.2f);
+			render.color = c;
+		}
+	}
 }
