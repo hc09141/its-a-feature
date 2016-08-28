@@ -6,6 +6,7 @@ public class AntiVirusAI : MonoBehaviour {
 	private Rigidbody2D rb;
 	public SpriteRenderer nice;
 	public SpriteRenderer evil;
+	private AudioSource die;
 	// 1 for right, -1 for left
 	public int direction = 1;
 	public int speed = 3;
@@ -15,6 +16,7 @@ public class AntiVirusAI : MonoBehaviour {
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
 		ground_scale = transform.localScale.x * 1f;
+		die = GetComponent<AudioSource> ();
 	}
 	
 	// Update is called once per frame
@@ -23,27 +25,29 @@ public class AntiVirusAI : MonoBehaviour {
 			rb.velocity = Vector2.zero;
 			if (TouchingGroundLeft ()) {
 				rb.AddForce (new Vector2 (-5, 0));
+				FlipLeft ();
 			} else {
 				rb.AddForce (new Vector2 (5, 0));
+				FlipRight ();
 			}
 		}
 		if (Mathf.Abs(rb.velocity.x) < 0.01f) {
 			direction *= -1;
+			if (direction >= 0) {
+				FlipRight ();
+			} else {
+				FlipLeft ();
+			}
+				
 		}
 
 		Color n_c = nice.color;
 		Color e_c = evil.color;
-//		n_c.r = Mathf.Min (1f, n_c.r + 0.01f);
-//		n_c.b = Mathf.Min (1f, n_c.b + 0.01f);
-//		n_c.g = Mathf.Min (1f, n_c.g + 0.01f);
-//		e_c.r = 1.0f - n_c.r;
-//		e_c.b = 1.0f - n_c.b;
-//		e_c.g = 1.0f - n_c.g;
 		n_c.a = Mathf.Min(1.0f, n_c.a + 0.01f);
 		e_c.a = 1.0f - n_c.a;
 		nice.color = n_c;
 		evil.color = e_c;
-		if (n_c.r == 1.0f) {
+		if (n_c.a == 1.0f) {
 			speed = 3;
 		}
 
@@ -51,9 +55,23 @@ public class AntiVirusAI : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D collision){
-		if (collision.gameObject.tag == "Player" && speed == 8) {
+		if (collision.gameObject.tag == "Player" && speed > 3) {
+			if (!die.isPlaying) {
+				die.Play ();
+			}
 			SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+
 		}
+	}
+
+	void FlipLeft(){
+		evil.flipX = true;
+		nice.flipX = true;
+	}
+
+	void FlipRight(){
+		evil.flipX = false;
+		nice.flipX = false;
 	}
 
 	void TriggeredByExploit(){

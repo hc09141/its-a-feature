@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour {
 	public float IDLE_THRESHOLD = 2.0f;
 
 	public AudioSource exitSound;
+	private AudioSource jumpSound;
+	private AudioSource land;
 
 	private bool door_active = false;
 	private bool completed = false;
@@ -27,6 +29,16 @@ public class PlayerController : MonoBehaviour {
 		rb = GetComponent<Rigidbody2D> ();
 		anim = GetComponent<Animator> ();
 		exploit = GetComponentInChildren<ExploitMover> ();
+		foreach(AudioSource sound in GetComponents<AudioSource>()){
+			switch (sound.clip.name) {
+			case "Jump":
+				jumpSound = sound;
+				break;
+			case "Land":
+				land = sound;
+				break;
+			}
+		}
 		DontDestroyOnLoad (exitSound);
 	}
 	
@@ -44,12 +56,14 @@ public class PlayerController : MonoBehaviour {
 		if(Input.GetKeyDown("space") && rb.IsTouchingLayers(LayerMask.GetMask("Platform", "Ground"))){
 			rb.AddForce (new Vector2(0,JUMP_FORCE));
 			anim.SetBool ("isJumping", true);
+			jumpSound.Play ();
 			resetGroundMovement ();
 		} else if (anim.GetBool("isJumping") && rb.velocity.y < -1f){
 			anim.SetBool ("isJumping", false);
 			anim.SetBool ("isFalling", true);
 			resetGroundMovement ();
 		} else if (anim.GetBool("isFalling") && rb.IsTouchingLayers(LayerMask.GetMask("Platform", "Ground"))){
+			land.Play ();
 			anim.SetBool ("isIdle", true);
 			anim.SetBool ("isJumping", false);
 			anim.SetBool ("isFalling", false);
@@ -83,7 +97,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Animation(){
-		if (rb.IsTouchingLayers (LayerMask.GetMask ("Platform", "Ground"))) {
+		if (rb.IsTouchingLayers (LayerMask.GetMask ("Platform", "Ground")) && !anim.GetBool("isFalling")) {
 			float velocity = rb.velocity.x;
 			anim.SetBool ("isFalling", false);
 			// 	anim.SetBool ("isJumping", false);
@@ -131,6 +145,10 @@ public class PlayerController : MonoBehaviour {
 
 	public void Transition() {
 		SceneManager.LoadScene (nextScene);
+	}
+
+	bool OnGround() {
+		return anim.GetBool ("isIdle") || anim.GetBool ("isWalkingLeft") || anim.GetBool ("isWalkingRight");
 	}
 
 	public int Size(){

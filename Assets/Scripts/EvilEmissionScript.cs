@@ -12,7 +12,7 @@ public class EvilEmissionScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		gameObject.transform.position = parent.transform.position;
-		bool isEvil = parent.GetComponent<SpriteRenderer> ().color.r < 0.1f;
+		bool isEvil = parent.GetComponent<SpriteRenderer> ().color.a < 0.1f;
 		gameObject.GetComponent<ParticleSystem> ().loop = isEvil;
 		if (isEvil && !wasEvil) {
 			gameObject.GetComponent<ParticleSystem> ().Play ();
