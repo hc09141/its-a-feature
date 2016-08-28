@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
 	public int size = 0;
 	private bool walkingRight = true;
 
+	public bool hasExploit = true;
 	public int ACCELERATION = 1000;
 	public int MAX_VELOCITY = 100;
 	public int JUMP_FORCE = 1000;
@@ -80,7 +81,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	bool Exploit() {
-		if (Input.GetButton ("Fire1") && (size < MAX_SIZE || door_active)) {
+		if (Input.GetButton ("Fire1") && (size < MAX_SIZE || door_active) && hasExploit) {
 			size++;
 			rb.velocity = Vector2.zero;
 			if (size > 350) {
