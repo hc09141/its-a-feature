@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class SplashSheepMover : MonoBehaviour {
 
@@ -11,5 +12,10 @@ public class SplashSheepMover : MonoBehaviour {
 
 	void Update() {
 		transform.position = Vector3.Lerp (pos1, pos2, Mathf.PingPong(Time.time*speed, 1.0f));
+
+		if(Input.GetKeyDown(KeyCode.Return)){
+			SceneManager.LoadScene("MountainVillage");
+		}
 	}
+
 }
