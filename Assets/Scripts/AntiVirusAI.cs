@@ -55,27 +55,15 @@ public class AntiVirusAI : MonoBehaviour {
 
 	bool TouchingGroundLeft(){
 		RaycastHit2D x = Physics2D.Raycast(transform.position, LeftDirectionVector(), 3f, LayerMask.GetMask("Ground"));
-		if (x) {
-			print (x.collider.name);
-		} else {
-			print ("noneL");
-		}
 		return x;
 	}
 
 	bool TouchingGroundRight(){
 		RaycastHit2D x = Physics2D.Raycast(transform.position, RightDirectionVector(), 3f, LayerMask.GetMask("Ground"));
-		if (x) {
-			print (x.collider.name);
-		} else {
-			print ("noneR");
-		}
 		return x;
 	}
 	Vector2 LeftDirectionVector(){
 		Vector2 lower_left = rb.position + new Vector2 (-0.5f, -0.5f);
-		print ("L");
-		print (lower_left);
 		return (lower_left - rb.position).normalized;
 
 

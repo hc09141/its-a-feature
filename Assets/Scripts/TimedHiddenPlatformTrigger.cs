@@ -20,6 +20,11 @@ public class TimedHiddenPlatformTrigger : MonoBehaviour {
 		}
 	}
 
+
+	void ApplySpriteOf(int number){
+
+	}
+
 	void TriggeredByExploit(){
 		SetChildRendererVisible ();
 		SetColliderEnabled (true);

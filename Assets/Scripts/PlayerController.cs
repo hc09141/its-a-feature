@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
 
 	public static int MAX_SIZE = 200;
 	public string nextScene;
-	private int size = 0;
+	public int size = 0;
 	private bool walkingRight = true;
 
 	public int ACCELERATION = 1000;
@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour {
 
 	void jump () {
 		if(Input.GetKeyDown("space") && rb.IsTouchingLayers(LayerMask.GetMask("Platform", "Ground"))){
-			print("ima jump"); 	
 			rb.AddForce (new Vector2(0,JUMP_FORCE));
 			anim.SetBool ("isJumping", true);
 		}
