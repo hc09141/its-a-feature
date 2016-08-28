@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour {
 			case "Jump":
 				jumpSound = sound;
 				break;
-			case "Land":
+			case "Land_2":
 				land = sound;
 				break;
 			}

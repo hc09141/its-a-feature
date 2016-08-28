@@ -6,17 +6,17 @@ public class AntiVirusAI : MonoBehaviour {
 	private Rigidbody2D rb;
 	public SpriteRenderer nice;
 	public SpriteRenderer evil;
-	private AudioSource die;
+	public AudioSource die;
 	// 1 for right, -1 for left
 	public int direction = 1;
 	public int speed = 3;
 
 	private float ground_scale;
 	// Use this for initialization
-	void Start () {
+	void Start () {		
 		rb = GetComponent<Rigidbody2D> ();
-		ground_scale = transform.localScale.x * 1f;
-		die = GetComponent<AudioSource> ();
+		ground_scale = transform.localScale.x * 1f;		
+		DontDestroyOnLoad (die);
 	}
 	
 	// Update is called once per frame
