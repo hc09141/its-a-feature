@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButton ("Fire1") && (size < MAX_SIZE || door_active)) {
 			size++;
 			rb.velocity = Vector2.zero;
-			if (size > 500) {
+			if (size > 350) {
 				completed = true;
 				exitSound.Play ();
 			}
