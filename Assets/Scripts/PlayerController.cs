@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour {
 	public AudioSource exitSound;
 	private AudioSource jumpSound;
 	private AudioSource land;
+	private AudioSource fall;
 
 	private bool door_active = false;
 	private bool completed = false;
@@ -37,6 +38,9 @@ public class PlayerController : MonoBehaviour {
 				break;
 			case "Land_2":
 				land = sound;
+				break;
+			default:
+				fall = sound;
 				break;
 			}
 		}
@@ -154,5 +158,20 @@ public class PlayerController : MonoBehaviour {
 
 	public int Size(){
 		return size;
+	}
+
+	void OnTriggeredByGround() {
+		StartCoroutine("Spawn");
+	}
+
+	IEnumerator Spawn() {
+
+		fall.Play();
+
+		while(fall.isPlaying) {
+			yield return null;
+		}
+
+		SceneManager.LoadScene (SceneManager.GetActiveScene().name);
 	}
 }
