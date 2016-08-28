@@ -6,6 +6,7 @@ public class AntiVirusAI : MonoBehaviour {
 	private Rigidbody2D rb;
 	public SpriteRenderer nice;
 	public SpriteRenderer evil;
+	private AudioSource die;
 	// 1 for right, -1 for left
 	public int direction = 1;
 	public int speed = 3;
@@ -15,6 +16,7 @@ public class AntiVirusAI : MonoBehaviour {
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
 		ground_scale = transform.localScale.x * 1f;
+		die = GetComponent<AudioSource> ();
 	}
 	
 	// Update is called once per frame
@@ -54,7 +56,11 @@ public class AntiVirusAI : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D collision){
 		if (collision.gameObject.tag == "Player" && speed > 3) {
+			if (!die.isPlaying) {
+				die.Play ();
+			}
 			SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+
 		}
 	}
 
