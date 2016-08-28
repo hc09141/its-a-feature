@@ -14,7 +14,6 @@ public class DoorScript : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D c){
-		print ("GET ON ME DOOR");
 		if (c.tag == "Player") {
 			c.SendMessage ("DoorActive");
 		}
