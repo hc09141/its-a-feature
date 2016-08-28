@@ -15,7 +15,7 @@ public class AntiVirusAI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {		
 		rb = GetComponent<Rigidbody2D> ();
-		ground_scale = transform.localScale.x * 1f;		
+		ground_scale = transform.localScale.x * 1f;
 		DontDestroyOnLoad (die);
 	}
 	
