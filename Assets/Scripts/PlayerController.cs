@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool ("isIdle", true);
 			anim.SetBool ("isJumping", false);
 			anim.SetBool ("isFalling", false);
-		}
+		} 
 	}
 
 	void move () {
@@ -123,6 +123,9 @@ public class PlayerController : MonoBehaviour {
 			}
 		} else {
 			resetGroundMovement ();
+			if(!anim.GetBool("Jumping")){
+				anim.SetBool("isFalling", true);
+			}
 		}
 	}
 
