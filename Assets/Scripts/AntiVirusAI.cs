@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class AntiVirusAI : MonoBehaviour {
@@ -43,8 +44,8 @@ public class AntiVirusAI : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D collision){
-		if (collision.gameObject.tag == "Player") {
-			print ("U DED");
+		if (collision.gameObject.tag == "Player" && speed == 8) {
+			SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 		}
 	}
 
